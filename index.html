@@ -1,0 +1,90 @@
+!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perhitungan Harga Plastik</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Perhitungan Harga Plastik</h1>
+        <p class="subtitle">Hitung total harga plastik berdasarkan harga per kg, berat, biaya tambahan, dan diskon.</p>
+
+        <form method="POST" class="card form-card">
+            <div class="form-group">
+                <label for="jenis_plastik">Jenis Plastik</label>
+                <input type="text" id="jenis_plastik" name="jenis_plastik" placeholder="Contoh: Plastik PE" required>
+            </div>
+
+            <div class="form-group">
+                <label for="harga_per_kg">Harga per Kg (Rp)</label>
+                <input type="number" step="0.01" id="harga_per_kg" name="harga_per_kg" placeholder="Contoh: 25000" required>
+            </div>
+
+            <div class="form-group">
+                <label for="berat_kg">Berat (Kg)</label>
+                <input type="number" step="0.01" id="berat_kg" name="berat_kg" placeholder="Contoh: 10" required>
+            </div>
+
+            <div class="form-group">
+                <label for="biaya_tambahan">Biaya Tambahan (Rp)</label>
+                <input type="number" step="0.01" id="biaya_tambahan" name="biaya_tambahan" placeholder="Contoh: 5000" value="0">
+            </div>
+
+            <div class="form-group">
+                <label for="diskon">Diskon (%)</label>
+                <input type="number" step="0.01" id="diskon" name="diskon" placeholder="Contoh: 5" value="0">
+            </div>
+
+            <button type="submit">Hitung Harga</button>
+        </form>
+
+        {% if error %}
+            <div class="card error-box">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        {% if hasil %}
+            <div class="card result-card">
+                <h2>Hasil Perhitungan</h2>
+                <table>
+                    <tr>
+                        <td>Jenis Plastik</td>
+                        <td>{{ hasil.jenis_plastik }}</td>
+                    </tr>
+                    <tr>
+                        <td>Harga per Kg</td>
+                        <td>Rp {{ "{:,.2f}".format(hasil.harga_per_kg) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Berat</td>
+                        <td>{{ "{:,.2f}".format(hasil.berat_kg) }} Kg</td>
+                    </tr>
+                    <tr>
+                        <td>Subtotal</td>
+                        <td>Rp {{ "{:,.2f}".format(hasil.subtotal) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Biaya Tambahan</td>
+                        <td>Rp {{ "{:,.2f}".format(hasil.biaya_tambahan) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Diskon</td>
+                        <td>{{ "{:,.2f}".format(hasil.diskon) }}%</td>
+                    </tr>
+                    <tr>
+                        <td>Nilai Diskon</td>
+                        <td>Rp {{ "{:,.2f}".format(hasil.nilai_diskon) }}</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>Total Akhir</td>
+                        <td>Rp {{ "{:,.2f}".format(hasil.total_akhir) }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
